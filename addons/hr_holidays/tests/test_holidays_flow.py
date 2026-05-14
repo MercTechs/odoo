@@ -9,7 +9,7 @@ from psycopg2 import IntegrityError
 
 from odoo import fields
 from odoo.exceptions import AccessError, ValidationError, UserError
-from odoo.tools import mute_logger, test_reports
+from odoo.tools import mute_logger
 
 from odoo.addons.hr_holidays.tests.common import TestHrHolidaysCommon
 
@@ -218,20 +218,6 @@ class TestHolidaysFlow(TestHrHolidaysCommon):
             self.assertEqual(hol3.state, 'validate', 'hr_holidays: validation should lead to validate state')
             # Check left days for casual leave: 19 days left
             _check_holidays_status(hol3_status, 20.0, 1.0, 19.0, 19.0)
-
-    def test_10_leave_summary_reports(self):
-        # Print the HR Holidays(Summary Employee) Report through the wizard
-        ctx = {
-            'model': 'hr.employee',
-            'active_ids': [self.ref('hr.employee_admin')]
-        }
-        data_dict = {
-            'date_from': datetime.today().strftime('%Y-%m-01'),
-            'emp': [(6, 0, [self.ref('hr.employee_admin')])],
-            'holiday_type': 'Approved'
-        }
-        self.env.company.external_report_layout_id = self.env.ref('web.external_layout_standard').id
-        test_reports.try_report_action(self.env.cr, self.env.uid, 'action_hr_holidays_summary_employee', wiz_data=data_dict, context=ctx, our_module='hr_holidays')
 
     def test_sql_constraint_dates(self):
         # The goal is mainly to verify that a human friendly

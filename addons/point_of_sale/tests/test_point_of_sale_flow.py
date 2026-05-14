@@ -8,7 +8,7 @@ from datetime import datetime
 import odoo
 from odoo import fields, tools
 from odoo.fields import Command
-from odoo.tools import float_compare, mute_logger, test_reports
+from odoo.tools import float_compare, mute_logger
 from odoo.tests.common import Form
 from odoo.addons.point_of_sale.tests.common import TestPointOfSaleCommon
 
